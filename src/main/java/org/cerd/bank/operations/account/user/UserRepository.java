@@ -4,33 +4,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class UserRepository
 {
     private static final String FILE_NAME = "src/main/resources/users.json";
 
-    public static void saveUser(User user)
+    public void readUser()
     {
         ObjectMapper objectMapper = new ObjectMapper();
-
         try
         {
-            objectMapper.writeValue(new File(FILE_NAME), user);
-            System.out.println("User save with successful");
-        }catch (IOException e){
-            System.out.println("Error validating user: " + e.getMessage());
+            List<User> users = objectMapper.readValue(new File(FILE_NAME), objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
+            for(User user : users)
+            {
+                System.out.println(user.getName() + " - " + user.getHash());
+            }
         }
-    }
-
-    public static void readUser()
-    {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try
+        catch (IOException e)
         {
-            User user = objectMapper.readValue(new File(FILE_NAME), User.class);
-            System.out.println(user.getName() + " - " + user.getCpf());
-        }catch (IOException e){
             System.out.println("Error reading a file: " + e.getMessage());
         }
     }

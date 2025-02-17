@@ -13,7 +13,6 @@ public class ValidateUser
     {
     }
     private final static String FILE_NAME = "src/main/resources/users.json";
-
     public boolean validate(String cpf, String hash)
     {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -28,7 +27,8 @@ public class ValidateUser
                 }
             }
         }
-        catch (IOException e){
+        catch (IOException e)
+        {
             System.out.println("Error reading a file: " + e.getMessage());
         }
         System.out.println("User can not fund: ");

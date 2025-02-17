@@ -2,25 +2,36 @@ package org.cerd.bank.exec;
 
 
 import org.cerd.bank.operations.account.user.User;
-import org.cerd.bank.operations.validation.ValidateUser;
+import org.cerd.bank.operations.account.user.UserRepository;
+import org.cerd.bank.operations.noncustomer.CreateAccount;
 
 import java.util.Scanner;
 
-public class Main {
+public class Main
+{
+
     public static void main(String[] args)
     {
         User user = new User();
-        Scanner scan = new Scanner(System.in);
+        CreateAccount createAccount = new CreateAccount();
+        UserRepository userRepository = new UserRepository();
 
+        Scanner scan = new Scanner(System.in);
         String name = scan.nextLine();
         System.out.println(name);
+        Integer age = scan.nextInt();
+        System.out.println(age);
+        String cellPhone = scan.nextLine();
+        System.out.println(cellPhone);
         String cpf = scan.nextLine();
         System.out.println(cpf);
 
         user.setName(name);
+        user.setAge(age);
+        user.setCellPhone(cellPhone);
         user.setCpf(cpf);
 
-        ValidateUser validateUser = new ValidateUser();
-        validateUser.validate(name, cpf);
+        createAccount.createNewAccount(name, age, cellPhone,cpf);
+        userRepository.readUser();
     }
 }

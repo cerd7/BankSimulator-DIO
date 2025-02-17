@@ -25,20 +25,6 @@ public class User
     {
     }
 
-    GenerateHash genHash = new GenerateHash();
-
-    public User(String name, Integer age, String cellPhone, String cpf)
-    {
-        if (cpf == null || cpf.isEmpty()) {
-            throw new IllegalArgumentException("CPF não pode ser nulo ou vazio.");
-        }
-        this.name = name;
-        this.age = age;
-        this.cellPhone = cellPhone;
-        this.cpf = cpf;
-        this.hash = genHash.hashGenerate(name, cpf);
-    }
-
     public String getName() {
         return name;
     }
@@ -73,5 +59,10 @@ public class User
 
     public String getHash() {
         return hash;
+    }
+
+    public void setHash(String hash)
+    {
+        this.hash = hash;
     }
 }

@@ -10,9 +10,8 @@ import java.util.List;
 
 public class CreateAccount
 {
-    ValidateUser validate = new ValidateUser();
-
-    private static final String FILE_NAME = "src/main/resources/users.json";
+    ValidateUser validateUser = new ValidateUser();
+    GenerateHash hashCode = new GenerateHash();
 
     public void createNewAccount(String name, Integer age, String cellPhone, String cpf)
     {
@@ -21,40 +20,41 @@ public class CreateAccount
         newUser.setAge(age);
         newUser.setCpf(cpf);
         newUser.setCellPhone(cellPhone);
-
-        ValidateUser validateUser = new ValidateUser();
+        String hash = hashCode.hashGenerate(name, cpf);
+        newUser.setHash(hash);
 
         if(validateUser.validate(cpf, newUser.getHash()))
         {
-            System.out.println("Usuário já existe. Conta não pode ser criada.");
+            System.out.println("User already exists. Account cannot be created.");
         }
         else
         {
-            System.out.println("Usuário não encontrado. Criando conta...");
+            System.out.println("User not found. Creating account...");
             addUser(newUser);
         }
     }
 
     private void addUser(User user) {
         ObjectMapper objectMapper = new ObjectMapper();
-
         try {
             File file = new File("src/main/resources/users.json");
-            if (file.exists() && file.length() > 0) {
+            if (file.exists() && file.length() > 0)
+            {
                 List<User> users = objectMapper.readValue(file,
                         objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
                 users.add(user);
                 objectMapper.writeValue(file, users);
-                System.out.println("Novo usuário adicionado.");
+                System.out.println("New user added.");
 
-            } else {
+            }
+            else
+            {
                 List<User> users = List.of(user);
                 objectMapper.writeValue(file, users);
-                System.out.println("Novo arquivo criado e usuário adicionado.");
+                System.out.println("New file created and user added.");
             }
-
         } catch (IOException e) {
-            System.out.println("Erro ao ler ou criar o arquivo JSON: " + e.getMessage());
+            System.out.println("Error reading or creating the JSON file: " + e.getMessage());
         }
     }
 }
