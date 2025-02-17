@@ -1,7 +1,6 @@
 package org.cerd.bank.operations.account.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.cerd.bank.operations.noncustomer.GenerateHash;
 
 public class User
 {

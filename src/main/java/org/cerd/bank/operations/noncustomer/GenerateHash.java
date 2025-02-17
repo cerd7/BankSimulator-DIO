@@ -1,7 +1,5 @@
 package org.cerd.bank.operations.noncustomer;
 
-import org.cerd.bank.operations.account.user.User;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -11,7 +9,6 @@ public class GenerateHash
 {
     public GenerateHash()
     {}
-
     public String hashGenerate(String name, String cpf)
     {
         try
