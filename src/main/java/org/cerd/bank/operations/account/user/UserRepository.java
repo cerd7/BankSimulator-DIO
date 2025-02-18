@@ -6,16 +6,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class UserRepository
+public class UserRepository extends User
 {
-    private static final String FILE_NAME = "src/main/resources/users.json";
-
     public void readUser()
     {
         ObjectMapper objectMapper = new ObjectMapper();
         try
         {
-            List<User> users = objectMapper.readValue(new File(FILE_NAME), objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
+            List<User> users = objectMapper.readValue(new File(getFile()), objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
             for(User user : users)
             {
                 System.out.println(user.getName() + " - " + user.getHash());

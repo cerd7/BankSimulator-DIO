@@ -1,1 +1,24 @@
-[{"Name":"Caio Rodrigues","Age":20,"cellPhone":"","Cpf":"44455599911","hashCode":"0TKJMZx8mx7GiNJXygWHp+9yAtIMkKdiiFz74FVBRBI="},{"Name":"Caio Rodrigues","Age":20,"cellPhone":"","Cpf":"44455599912","hashCode":"jkxlk2Z1GOAaHgSdB0P8BUSYEO7wEoGkktr2MoKZE6I="},{"Name":"Cerd","Age":20,"cellPhone":"","Cpf":"12 365489076","hashCode":"dGR0qOnKm0UI9fcRdCQXM5PaJtU7SHgR2yHnSc09J+E="},{"Name":"Caio Henrique Ferreira Rodrigues","Age":23,"cellPhone":"","Cpf":"43568927309","hashCode":"JrWL8ocdNqMZWUpKUs2+5CUMSeQWYiBuX9u40vOqkto="},{"Name":"Caique Fernando","Age":45,"cellPhone":"","Cpf":"45698733324","hashCode":"g03C78t5Bi4c5dRMZlVt340lhfjkZUvdi7lFkmInN34="}]
+[
+  {
+    "Name":"Caio Rodrigues",
+    "Age":12,"cellPhone":"",
+    "Cpf":"1111222233344",
+    "hashCode":"jO5OzGE+TK11ENgTBbkGepTOKs5lUjs0fxhrjpoEwuQ=",
+    "balance":1000.0
+  },
+  {
+    "Name":"Bruno",
+    "Age":23,"cellPhone":"",
+    "Cpf":"11122233344",
+    "hashCode":"jGfzZJ7f9m3ERuBxe2VMCiCGm1rpV7W9S169qMjZ0+Y=",
+    "balance":null
+  },
+  {
+    "Name":"Caio",
+    "Age":19,
+    "cellPhone":"",
+    "Cpf":"12345698708",
+    "hashCode":"2HALIXG+G2k3xM4tmxpilYSW9o3eK5bvxX1LFN5AcYk=",
+    "balance":null
+  }
+]

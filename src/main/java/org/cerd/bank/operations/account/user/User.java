@@ -1,5 +1,6 @@
 package org.cerd.bank.operations.account.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User
@@ -19,10 +20,15 @@ public class User
     @JsonProperty("hashCode")
     private String hash;
 
+    @JsonProperty("balance")
+    private Double balance;
 
     public User()
     {
     }
+
+    @JsonIgnore
+    private static final String FILE_NAME = "src/main/resources/users.json";
 
     public String getName() {
         return name;
@@ -63,5 +69,18 @@ public class User
     public void setHash(String hash)
     {
         this.hash = hash;
+    }
+
+    public static String getFile()
+    {
+        return FILE_NAME;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 }

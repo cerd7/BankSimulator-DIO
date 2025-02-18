@@ -2,7 +2,7 @@ package org.cerd.bank.operations.noncustomer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.cerd.bank.operations.account.user.User;
-import org.cerd.bank.operations.validation.ValidateUser;
+import org.cerd.bank.operations.account.user.ValidateUser;
 
 import java.io.File;
 import java.io.IOException;
