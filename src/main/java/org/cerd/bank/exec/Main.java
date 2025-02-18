@@ -32,8 +32,8 @@ public class Main
         user.setCellPhone(cellPhone);
         user.setCpf(cpf);
 
-        createAccount.createNewAccount(name, age, cellPhone,cpf);
-        Deposit.newDeposit("1111222233344", (double) 1000.0);
+        //createAccount.createNewAccount(name, age, cellPhone,cpf);
+        Deposit.newDeposit("12345698708", (double) 700.0);
         userRepository.readUser();
     }
 }
