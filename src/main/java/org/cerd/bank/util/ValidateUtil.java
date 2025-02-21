@@ -26,4 +26,20 @@ public class ValidateUtil extends User {
         System.out.println("User can not fund: ");
         return false;
     }
+
+    public boolean validateCpf(String cpf) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            List<User> users = objectMapper.readValue(new File(getFile()), objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
+            for (User user : users) {
+                if (user.getCpf().equals(cpf)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading a file: " + e.getMessage());
+        }
+        //System.out.println("User can not fund...");
+        return false;
+    }
 }
