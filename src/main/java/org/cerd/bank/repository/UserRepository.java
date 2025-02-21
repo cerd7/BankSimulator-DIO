@@ -13,10 +13,23 @@ public class UserRepository extends User {
         try {
             List<User> users = objectMapper.readValue(new File(getFile()), objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
             for (User user : users) {
-                System.out.println(user.getName() + " - " + user.getHash() + " - " + user.getBalance());
+                System.out.println(user.getName() + " - " + user.getCpf() + " - " + user.getHash() + " - " + user.getBalance());
             }
         } catch (IOException e) {
             System.out.println("Error reading a file: " + e.getMessage());
+        }
+    }
+
+    public void readBalance() {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            List<User> users = objectMapper.readValue(new File(getFile()), objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
+            for (User user : users){
+                System.out.println("See your balance: " + user.getBalance());
+            }
+        }catch (IOException e){
+            System.out.println("Your account is empty...");
         }
     }
 }

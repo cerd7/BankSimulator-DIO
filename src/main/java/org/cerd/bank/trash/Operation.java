@@ -1,4 +1,4 @@
-package org.cerd.bank.service;
+package org.cerd.bank.trash;
 
 import org.cerd.bank.util.ValidateUtil;
 
@@ -19,7 +19,7 @@ public class Operation {
         receiveUser();
     }
 
-    private boolean receiveUser() {
+    private void receiveUser() {
         while (checkCondition) {
             System.out.println("Welcome to Cerd Bank...");
             System.out.println("Today is your first time? Press 1 for YES or 2 for NO");
@@ -32,14 +32,14 @@ public class Operation {
                 if (twoFactorValidate()) {
                     requestCreateAccount();
                 }
-                return true;
+                //return true;
             } else if (receiveOptional == 2) {
                 System.out.println("F on chat guys...");
             } else {
                 System.out.println("The value you entered is incompatible... Please try again");
             }
         }
-        return false;
+        //return false;
     }
 
     private boolean twoFactorValidate() {

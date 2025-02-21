@@ -1,4 +1,4 @@
-package org.cerd.bank.service;
+package org.cerd.bank.trash;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

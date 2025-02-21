@@ -1,6 +1,6 @@
 package org.cerd.bank.exec;
 
-import org.cerd.bank.service.Operation;
+import org.cerd.bank.trash.Operation;
 
 import java.io.IOException;
 
