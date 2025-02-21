@@ -1,10 +1,9 @@
-package org.cerd.bank.operations.account.user;
+package org.cerd.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class User
-{
+public class User {
     @JsonProperty("Name")
     private String name;
 
@@ -23,8 +22,7 @@ public class User
     @JsonProperty("balance")
     private Double balance;
 
-    public User()
-    {
+    public User() {
     }
 
     @JsonIgnore
@@ -66,13 +64,11 @@ public class User
         return hash;
     }
 
-    public void setHash(String hash)
-    {
+    public void setHash(String hash) {
         this.hash = hash;
     }
 
-    public static String getFile()
-    {
+    public static String getFile() {
         return FILE_NAME;
     }
 

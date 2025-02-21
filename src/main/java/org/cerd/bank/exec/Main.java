@@ -1,16 +1,15 @@
 package org.cerd.bank.exec;
 
 
-import org.cerd.bank.operations.account.user.User;
-import org.cerd.bank.operations.account.user.UserRepository;
-import org.cerd.bank.operations.costumer.functionality.Deposit;
-import org.cerd.bank.operations.noncustomer.CreateAccount;
+import org.cerd.bank.model.User;
+import org.cerd.bank.repository.UserRepository;
+import org.cerd.bank.service.Deposit;
+import org.cerd.bank.service.CreateAccount;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main
-{
+public class Main {
     public static void main(String[] args) throws IOException {
         User user = new User();
         CreateAccount createAccount = new CreateAccount();
