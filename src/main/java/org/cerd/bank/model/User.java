@@ -26,7 +26,7 @@ public class User {
     }
 
     @JsonIgnore
-    private static final String FILE_NAME = "src/main/resources/users.json";
+    String FILE_NAME = "src/main/resources/users.json";
 
     public String getName() {
         return name;
@@ -68,7 +68,7 @@ public class User {
         this.hash = hash;
     }
 
-    public static String getFile() {
+    public String getFile() {
         return FILE_NAME;
     }
 
