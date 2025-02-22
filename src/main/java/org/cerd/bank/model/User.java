@@ -1,8 +1,9 @@
 package org.cerd.bank.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     @JsonProperty("Name")
     private String name;
@@ -25,9 +26,6 @@ public class User {
     public User() {
     }
 
-    @JsonIgnore
-    String FILE_NAME = "src/main/resources/users.json";
-
     public String getName() {
         return name;
     }
@@ -36,11 +34,11 @@ public class User {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -66,10 +64,6 @@ public class User {
 
     public void setHash(String hash) {
         this.hash = hash;
-    }
-
-    public String getFile() {
-        return FILE_NAME;
     }
 
     public Double getBalance() {

@@ -2,58 +2,53 @@ package org.cerd.bank.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.cerd.bank.model.Account;
 import org.cerd.bank.model.User;
-import org.cerd.bank.util.GenerateHash;
+import org.cerd.bank.repository.UserRepository;
 import org.cerd.bank.util.ValidateUtil;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collection;
 import java.util.List;
 
-public class AccountService extends ValidateUtil{
+public class AccountService extends ValidateUtil {
+    private final File file = new File("src/main/resources/users.json");
+    private UserRepository repository;
+
     public AccountService() {
     }
-    GenerateHash hashCode = new GenerateHash();
 
     public void createAccount(String name, Integer age, String cellPhone, String cpf) {
+        Account account = new Account();
         User newUser = new User();
         newUser.setName(name);
         newUser.setAge(age);
         newUser.setCpf(cpf);
         newUser.setCellPhone(cellPhone);
-        String hash = hashCode.hashGenerate(name, cpf);
+        String hash = hashGenerate(name, cpf);
         newUser.setHash(hash);
 
-        if (validate(cpf, newUser.getHash())) {
+        account.setAccountID("2348");
+        account.setPasswordID("1234");
+        account.setInfoUser(newUser);
+
+        if (validateAccount(cpf, account.getInfoUser().getHash())) {
             System.out.println("User already exists. Account cannot be created.");
         } else {
             System.out.println("User not found. Creating account...");
-            addUser(newUser);
-        }
-    }
-
-    private void addUser(User user) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            File file = new File("src/main/resources/users.json");
-            if (file.exists() && file.length() > 0) {
-                List<User> users = objectMapper.readValue(file,
-                        objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
-                users.add(user);
-                objectMapper.writeValue(file, users);
-                System.out.println("New user added.");
-            } else {
-                List<User> users = List.of(user);
-                objectMapper.writeValue(file, users);
-                System.out.println("New file created and user added.");
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading or creating the JSON file: " + e.getMessage());
+            repository.addUser(account);
         }
     }
 
     public void newDeposit(String cpf, Double amount) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<User> users = objectMapper.readValue(new File(getValidUser().getFile()), new TypeReference<>()
+        List<User> users = objectMapper.readValue(new File(String.valueOf(file)), new TypeReference<>()
         {});
         boolean userFound = false;
         for (User user : users) {
@@ -74,7 +69,7 @@ public class AccountService extends ValidateUtil{
             return;
         }
 
-        objectMapper.writeValue(new File(getFile()), users);
+        objectMapper.writeValue(new File(String.valueOf(file)), users);
         System.out.println("Deposit with successful!");
     }
 
@@ -86,6 +81,18 @@ public class AccountService extends ValidateUtil{
     public boolean withdrawal(Float value)
     {
         return false;
+    }
+
+    public String hashGenerate(String name, String cpf) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            String input = name + cpf;
+            byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+
+            return Base64.getEncoder().encodeToString(hashBytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error to generate hash:" + e.getMessage());
+        }
     }
 
 }
