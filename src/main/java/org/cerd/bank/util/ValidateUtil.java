@@ -2,12 +2,13 @@ package org.cerd.bank.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.cerd.bank.model.User;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class ValidateUtil extends User{
-    private User validUser = new User();
+public class ValidateUtil extends User {
+    User validUser = new User();
 
     public ValidateUtil() {
     }
@@ -44,9 +45,9 @@ public class ValidateUtil extends User{
         //System.out.println("User can not fund...");
         return false;
     }
+
     public boolean limiterAge(Integer age) {
-        if (age < 18)
-        {
+        if (age < 18) {
             System.out.println("I'm sorry, but you're too young to have a bank account... try again in the future!");
         }
         //System.out.println("User can not fund...");

@@ -2,10 +2,9 @@ package org.cerd.bank.controller;
 
 import org.cerd.bank.service.AccountService;
 
-import java.net.ServerSocket;
 import java.util.Scanner;
 
-public class UserController extends AccountService{
+public class UserController extends AccountService {
     private final Scanner scannerOperations;
     private boolean checkCondition = true;
     private int receiveOptional;
