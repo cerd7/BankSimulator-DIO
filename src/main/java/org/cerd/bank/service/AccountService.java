@@ -6,15 +6,12 @@ import org.cerd.bank.model.Account;
 import org.cerd.bank.model.User;
 import org.cerd.bank.repository.UserRepository;
 import org.cerd.bank.util.ValidateUtil;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collection;
 import java.util.List;
 
 public class AccountService extends ValidateUtil {
