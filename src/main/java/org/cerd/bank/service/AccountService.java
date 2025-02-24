@@ -16,14 +16,16 @@ import java.util.List;
 
 public class AccountService extends ValidateUtil {
     private final File file = new File("src/main/resources/users.json");
-    private UserRepository repository;
+
+    UserRepository userRepository = new UserRepository();
 
     public AccountService() {
     }
 
-    public void createAccount(String name, Integer age, String cellPhone, String cpf) {
+    public void createAccount(String name, Integer age, String cpf, String cellPhone) {
         Account account = new Account();
         User newUser = new User();
+
         newUser.setName(name);
         newUser.setAge(age);
         newUser.setCpf(cpf);
@@ -39,7 +41,7 @@ public class AccountService extends ValidateUtil {
             System.out.println("User already exists. Account cannot be created.");
         } else {
             System.out.println("User not found. Creating account...");
-            repository.addUser(account);
+            userRepository.addUser(account);
         }
     }
 
