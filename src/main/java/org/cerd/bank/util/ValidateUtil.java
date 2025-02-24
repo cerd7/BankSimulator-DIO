@@ -48,7 +48,7 @@ public class ValidateUtil extends User {
         return false;
     }
 
-    public boolean limiterAge(Integer age) {
+    public boolean validateAge(Integer age) {
         if (age < 18) {
             System.out.println("I'm sorry, but you're too young to have a bank account... try again in the future!");
         }
