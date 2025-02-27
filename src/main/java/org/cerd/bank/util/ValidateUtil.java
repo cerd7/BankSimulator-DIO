@@ -3,7 +3,6 @@ package org.cerd.bank.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.cerd.bank.model.Account;
 import org.cerd.bank.model.User;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -27,9 +26,33 @@ public class ValidateUtil extends User {
         } catch (IOException e) {
             System.out.println("Error reading a file: " + e.getMessage());
         }
-        System.out.println("User can not fund: ");
         return false;
     }
+
+    public boolean validateLogin(String accountID, String passwordID) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            accounts = objectMapper.readValue(new File(file), objectMapper.getTypeFactory().constructCollectionType(List.class, Account.class));
+            for (Account validateInfosAccount : accounts) {
+                if (validateInfosAccount.getAccountID().equals(accountID) && validateInfosAccount.getPasswordID().equals(passwordID)) {
+                    System.out.println("Welcome " + validateInfosAccount.getInfoUser().getName() + " How can I help you today? ");
+                    return true;
+                }
+                else if (!validateInfosAccount.getAccountID().equals(accountID)) {
+                    System.out.println("Invalid account ID. Try again.");
+                    return false;
+                }
+                else {
+                    System.out.println("Invalid password. Try again.");
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading a file: " + e.getMessage());
+        }
+        return false;
+    }
+
 
     public boolean validateCpf(String cpf) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -55,4 +78,6 @@ public class ValidateUtil extends User {
         //System.out.println("User can not fund...");
         return false;
     }
+
+
 }
