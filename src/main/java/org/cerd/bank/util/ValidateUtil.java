@@ -53,7 +53,6 @@ public class ValidateUtil extends User {
         return false;
     }
 
-
     public boolean validateCpf(String cpf) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {

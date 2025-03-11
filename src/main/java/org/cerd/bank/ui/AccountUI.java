@@ -1,6 +1,4 @@
 package org.cerd.bank.ui;
 
-public class loginUi
-{
-
+public class AccountUI {
 }

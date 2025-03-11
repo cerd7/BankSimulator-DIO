@@ -47,8 +47,8 @@ public class AccountService extends ValidateUtil {
 
     public void newDeposit(String cpf, Double amount) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<User> users = objectMapper.readValue(new File(String.valueOf(file)), new TypeReference<>()
-        {});
+        List<User> users = objectMapper.readValue(new File(String.valueOf(file)), new TypeReference<>() {
+        });
         boolean userFound = false;
         for (User user : users) {
             if (user.getCpf().equals(cpf)) {
@@ -72,13 +72,11 @@ public class AccountService extends ValidateUtil {
         System.out.println("Deposit with successful!");
     }
 
-    public boolean transfer(String name, String CPF)
-    {
+    public boolean transfer(String name, String CPF) {
         return false;
     }
 
-    public boolean withdrawal(Float value)
-    {
+    public boolean withdrawal(Double value) {
         return false;
     }
 
