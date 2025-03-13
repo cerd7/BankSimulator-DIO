@@ -1,4 +1,4 @@
-package org.cerd.bank.app;
+package org.cerd.bank;
 
 import org.cerd.bank.controller.UserController;
 
