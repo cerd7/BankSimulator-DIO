@@ -14,12 +14,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.List;
 
-public class AccountService extends ValidateUtil {
+public class AccountService{
     private final File file = new File("src/main/resources/users.json");
 
-    UserRepository userRepository = new UserRepository();
+    UserRepository userRepository;
+    ValidateUtil validateUtil;
 
     public AccountService() {
+        userRepository = new UserRepository();
+        validateUtil = new ValidateUtil();
     }
 
     public void createAccount(String name, Integer age, String cpf, String cellPhone) {
@@ -37,7 +40,7 @@ public class AccountService extends ValidateUtil {
         account.setPasswordID("1234");
         account.setInfoUser(newUser);
 
-        if (validateAccount(cpf, account.getInfoUser().getHash())) {
+        if (validateUtil.validateAccount(cpf, account.getInfoUser().getHash())) {
             System.out.println("User already exists. Account cannot be created.");
         } else {
             System.out.println("User not found. Creating account...");
