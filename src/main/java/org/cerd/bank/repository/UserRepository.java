@@ -1,60 +1,64 @@
 package org.cerd.bank.repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.cerd.bank.model.Account;
-import org.cerd.bank.model.User;
-
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-public class UserRepository {
-    private final File file = new File("src/main/resources/users.json");
-    private List<Account> accounts;
+import org.cerd.bank.config.AppConfig;
+import org.cerd.bank.exception.RepositoryException;
+import org.cerd.bank.model.Account;
 
-    public void readUser() {
-        ObjectMapper objectMapper = new ObjectMapper();
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class UserRepository{
+    private final ObjectMapper objectMapper;
+    private final File dataFile;
+
+    public UserRepository(){
+        this.objectMapper = new ObjectMapper();
+        this.dataFile = new File(AppConfig.USERS_FILE_PATH);
+    }
+
+    public List<Account> findAll() {
+        if (!dataFile.exists() || dataFile.length() == 0) {
+            return new ArrayList<>();
+        }
         try {
-            accounts = objectMapper.readValue(new File(String.valueOf(file)), objectMapper.getTypeFactory().constructCollectionType(List.class, Account.class));
-            for (Account readInfos : accounts) {
-                System.out.println(readInfos.getInfoUser().getName() + " - " + readInfos.getInfoUser().getCpf() + " - " + readInfos.getInfoUser().getHash() + " - " + readInfos.getInfoUser().getBalance());
-            }
+            return objectMapper.readValue(dataFile, 
+                objectMapper.getTypeFactory().constructCollectionType(List.class, Account.class));
         } catch (IOException e) {
-            System.out.println("Error reading a file: " + e.getMessage());
+            throw new RepositoryException("Error reading accounts", e);
         }
     }
 
-    public void readBalance() {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try {
-            List<User> users = objectMapper.readValue(new File(String.valueOf(file)), objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
-            for (User user : users) {
-                System.out.println("See your balance: " + user.getBalance());
-            }
-        } catch (IOException e) {
-            System.out.println("Your account is empty...");
-        }
+    public Optional<Account> findByCpf(String cpf){
+        return findAll().stream()
+               .filter(account -> account.getInfoUser().getCpf().equals(cpf))
+               .findFirst();
     }
 
-    public void addUser(Account user) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            if (file.exists() && file.length() > 0) {
-                accounts = objectMapper.readValue(file,
-                        objectMapper.getTypeFactory().constructCollectionType(List.class, Account.class));
-                accounts.add(user);
-                objectMapper.writeValue(file, accounts);
-                System.out.println("New user added.");
-            } else {
-                accounts = new ArrayList<>();
-                accounts.add(user);
-                objectMapper.writeValue(file, accounts);
-                System.out.println("New file created and user added.");
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading or creating the JSON file: " + e.getMessage());
+    public void save(Account account){
+        List<Account> accounts = findAll();
+        accounts.add(account);
+        writeAll(accounts);
+    }
+
+    public void update(Account updateAccount){
+        List<Account> accounts = findAll();
+        accounts.replaceAll(account -> account.getInfoUser().getCpf().equals(updateAccount.getInfoUser().getCpf())
+            ? updateAccount
+            : account
+        );
+        writeAll(accounts);
+    }
+
+    private void writeAll(List<Account> accounts){
+        try{
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(dataFile, accounts);
+        } catch(IOException e){
+            throw new RepositoryException("Error writing accounts", e);
         }
     }
 }

@@ -1,0 +1,38 @@
+[
+    {
+        "accountID": "2348",
+        "passwordID": "1234",
+        "infoUser": {
+            "Name": "Junior",
+            "Age": 40,
+            "cellPhone": "11996780030",
+            "Cpf": "45987066530",
+            "hashCode": "mnFmQooL9bKy4bdOGYi/JaZgu9aXKPK2oTQcP6gJmnU=",
+            "balance": null
+        }
+    },
+    {
+        "accountID": "2348",
+        "passwordID": "1234",
+        "infoUser": {
+            "Name": "huragan",
+            "Age": 24,
+            "cellPhone": "19999990011",
+            "Cpf": "09087876711",
+            "hashCode": "UUIfgGHkQ0oFzL5kVimGJ/jOpinFatMNitqwDkeQTps=",
+            "balance": null
+        }
+    },
+    {
+        "accountID": "2348",
+        "passwordID": "1234",
+        "infoUser": {
+            "Name": "cc",
+            "Age": 56,
+            "cellPhone": "11299007766",
+            "Cpf": "33344455521",
+            "hashCode": "NcuLYIezHdZggfDDKFCbJmj/VfkV2E/G987xyRA1m9w=",
+            "balance": null
+        }
+    }
+]
