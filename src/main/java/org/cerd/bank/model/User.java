@@ -7,23 +7,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
-    @JsonProperty("Name")
+    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("Age")
+    @JsonProperty("age")
     private Integer age;
 
     @JsonProperty("cellPhone")
     private String cellPhone;
 
-    @JsonProperty("Cpf")
+    @JsonProperty("cpf")
     private String cpf;
 
-    @JsonProperty("hashCode")
-    private String hash;
-
-    @JsonProperty("balance")
-    private Double balance = 0.0;
+    @JsonProperty("passwordHash")
+    private String passwordHash;
 
     public User() {
     }
@@ -60,20 +57,12 @@ public class User {
         this.cpf = cpf;
     }
 
-    public String getHash() {
-        return hash;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
-
-    public Double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     @Override
@@ -91,6 +80,6 @@ public class User {
 
     @Override
     public String toString(){
-        return "User{name='%s', cpf='%s', balance='%s'}".formatted(name, cpf, balance);
+        return "User{name='%s', cpf='%s'}".formatted(name, cpf);
     }
 }

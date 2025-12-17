@@ -1,19 +1,21 @@
 package org.cerd.bank.model;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Account {
     private String accountID;
-    private String passwordID;
+    private double balance = 0.0;
     private User infoUser;
 
     public Account() {
     }
 
-    public Account(String accountID, String passwordID, User infoUser) {
+    public Account(String accountID, double balance, User infoUser) {
         this.accountID = accountID;
-        this.passwordID = passwordID;
+        this.balance = balance;
         this.infoUser = infoUser;
     }
 
@@ -25,12 +27,12 @@ public class Account {
         this.accountID = accountID;
     }
 
-    public String getPasswordID() {
-        return passwordID;
+    public double getBalance(){
+        return balance;
     }
 
-    public void setPasswordID(String passwordID) {
-        this.passwordID = passwordID;
+    public void setBalance(double balance){
+        this.balance = balance;
     }
 
     public User getInfoUser() {
@@ -39,5 +41,24 @@ public class Account {
 
     public void setInfoUser(User infoUser) {
         this.infoUser = infoUser;
+    }
+
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(this == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(accountID, account.accountID);
+    }
+    
+    @Override
+    public int hashCode(){
+        return Objects.hash(accountID);
+    }
+
+    @Override
+    public String toString(){
+        return "Account{accountID='%s', user='%s', balance='%s'}".formatted(accountID, infoUser, balance);
     }
 }

@@ -12,11 +12,11 @@ import org.cerd.bank.model.Account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class UserRepository{
+public class AccountRepository{
     private final ObjectMapper objectMapper;
     private final File dataFile;
 
-    public UserRepository(){
+    public AccountRepository(){
         this.objectMapper = new ObjectMapper();
         this.dataFile = new File(AppConfig.USERS_FILE_PATH);
     }
