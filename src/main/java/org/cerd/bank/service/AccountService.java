@@ -1,57 +1,117 @@
 package org.cerd.bank.service;
 
+import org.cerd.bank.exception.InvalidAmountException;
+import org.cerd.bank.exception.AccountNotFoundException;
+
 import org.cerd.bank.model.Account;
 import org.cerd.bank.model.User;
-import org.cerd.bank.repository.UserRepository;
+import org.cerd.bank.repository.AccountRepository;
+import org.cerd.bank.util.AccountIdGenerator;
+import org.cerd.bank.util.HashUtil;
+import org.cerd.bank.validator.AccountValidator;
+import org.cerd.bank.validator.CpfValidator;
+import org.cerd.bank.validator.UserValidator;
 
 public class AccountService{
-    private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
     private final AccountValidator accountValidator;
     private final HashUtil hashUtil;
     private final AccountIdGenerator accountIdGenerator;
+    private final CpfValidator cpfValidator;
+    private final UserValidator userValidator;
 
-    public AccountService(UserRepository userRepository, 
+    public AccountService(AccountRepository accountRepository,
                           AccountValidator accountValidator,
                           HashUtil hashUtil,
-                          AccountIdGenerator accountIdGenerator){
-        this.userRepository = userRepository;
+                          AccountIdGenerator accountIdGenerator,
+                          CpfValidator cpfValidator,
+                          UserValidator userValidator){
+        this.accountRepository = accountRepository;
         this.accountValidator = accountValidator;
         this.hashUtil = hashUtil;
         this.accountIdGenerator = accountIdGenerator;
+        this.cpfValidator = cpfValidator;
+        this.userValidator = userValidator;
     }
 
-    public Account createAccount(String name, Integer age, String cpf, String cellPhone){
-        if(accountValidator.accountExists(cpf)){
-            throw new AccountAlreadyExistsException("User with CPF " + cpf + " already exists");
+    public Account createAccount(String name, Integer age, String cpf, String cellPhone, String password){
+        if (accountValidator.accountExists(cpf)) {
+            throw new RuntimeException("Usuário com CPF "+cpf+" já existe.");
         }
 
-        User newUser = buildUser(name, age, cpf, cellPhone);
-        Account account = buildAccount(newUser);
+        cpfValidator.validate(cpf);
 
-        userRepository.save(account);
-        return account;
-    }    
+        if (!userValidator.isValidAge(age)) {
+            throw new RuntimeException("Idade mínima é 18 anos");
+        }
 
-    private User buildUser(User user){
-        Account account = new Account();
-        account.setAccountID(accountIdGenerator.generate());
-        account.setPasswordID(generateTemporaryPassword());
-        account.setInfoUser(user);
-        return account;
+        if (!userValidator.isValidPhone(cellPhone)) {
+            throw new RuntimeException("Telefone deve ter 11 dígitos.");
+        }
+        
+        User newUser = new User();
+        newUser.setName(name);
+        newUser.setAge(age);
+        newUser.setCpf(cpf);
+        newUser.setCellPhone(cellPhone);
+        newUser.setPasswordHash(hashUtil.hashPassword(password));
+
+        Account newAccount = new Account();
+        newAccount.setAccountID(accountIdGenerator.generate());
+        newAccount.setBalance(0.0);
+        newAccount.setInfoUser(newUser);
+        accountRepository.save(newAccount);
+        return newAccount;
     }
 
-    private void deposit(String cpf, Double amount){
+    public void deposit(String cpf, Double amount){
         if (amount <= 0) {
             throw new InvalidAmountException("Amount must be positive");
         }
 
-        Account account = userRepository.findByCpf(cpf)
-        .orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        Account account = accountRepository.findByCpf(cpf)
+            .orElseThrow(() -> new AccountNotFoundException(
+            "Account not found for this CPF: "+ cpf
+        ));
 
-        User user = account.getInfoUser();
-        double currentBalance = user.getBalnce() != null ? user.getBalance() : 0.0;
-        user.setBalance(currentBalance + amount);
-        userRepository.update(account);
+        double currentBalance = account.getBalance();
+        account.setBalance(currentBalance + amount);
 
+        accountRepository.update(account);
+    }
+
+    public void withdraw(String cpf, Double amount){
+        if (amount != null || amount <= 0) {
+            throw new InvalidAmountException("Conta não encontrada para o CPF: " + cpf);
+        }
+
+        Account account = accountRepository.findByCpf(cpf)
+            .orElseThrow(() -> new AccountNotFoundException(
+            "Account not found for this CPF: "+ cpf
+        ));
+
+        double currentBalance = account.getBalance();
+        if (amount > currentBalance) {
+            throw new InvalidAmountException("Saldo insuficiente. Saldo atual: " + currentBalance);
+        }
+
+        account.setBalance(currentBalance - amount);
+
+        accountRepository.update(account);
+    }
+
+    public double getBalance(String cpf){
+        Account account = accountRepository.findByCpf(cpf)
+            .orElseThrow(()-> new AccountNotFoundException(
+                "Conta não encontrada para o CPF: " + cpf
+        ));
+        return account.getBalance();
+    }
+
+    public Account findAccountByCpf(String cpf){
+        return accountRepository.findByCpf(cpf)
+        .orElseThrow(()-> new AccountNotFoundException(
+            "Conta não encontrada para o CPF" + cpf
+        ));
     }
 }

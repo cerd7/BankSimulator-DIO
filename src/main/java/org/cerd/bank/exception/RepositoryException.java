@@ -4,6 +4,7 @@ import java.io.IOException;
 
 public class RepositoryException extends RuntimeException {
 
-    public RepositoryException(String string, IOException e) {
+    public RepositoryException(String message, IOException e) {
+        super(message,e);
     }
 }

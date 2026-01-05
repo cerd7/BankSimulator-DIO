@@ -2,7 +2,8 @@ package org.cerd.bank.controller;
 
 import org.cerd.bank.service.AccountService;
 import org.cerd.bank.ui.MainMenuUI;
-import org.cerd.bank.model.User;
+import org.cerd.bank.exception.InvalidCpfException;
+import org.cerd.bank.model.Account;
 
 public class UserController{
     private final AccountService accountService;
@@ -27,24 +28,38 @@ public class UserController{
     }
 
     private void handleExistingUser(){
-
+        System.out.println("Login functionality coming soon...");
     }
 
     private void handleNewUser(){
         mainMenuUi.showBankInfo();
         if(mainMenuUi.confirmCreateAccount()){
             createNewAccount();
+        }else{
+            System.out.println("Thank you for visiting! Come back anytime.");
         }
     }
 
 
     private void createNewAccount(){
-        User userData = mainMenuUi.collectUserData();
-        accountService.createAccout(
-            userData.getName(),
-            userData.getAge(),
-            userData.getCpf(),
-            userData.getCellPhone()
-        );
+        try{
+            MainMenuUI.UserDataDTO data = mainMenuUi.collectionUserData();
+
+            Account createAccount = accountService.createAccount(
+                data.name(),
+                data.age(),
+                data.cpf(),
+                data.phone(),
+                data.password()
+            );
+
+            System.out.println("\n Account created sucessfully!");
+            System.out.println("Your account number is: " + createAccount.getAccountID());
+            System.out.println("Plase save this number for future acess.");
+        }catch(InvalidCpfException e){
+            System.out.println("\n Error: Invalid CPF - " + e.getMessage());
+        }catch(RuntimeException e){
+            System.out.println("\n Error creating account: " + e.getMessage());
+        }
     }
 }

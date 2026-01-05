@@ -2,9 +2,7 @@ package org.cerd.bank.ui;
 
 import java.util.Scanner;
 
-import org.cerd.bank.model.User;
-
-public class MainMenuUI {
+public class MainMenuUI implements AutoCloseable{
     private final Scanner scanner;
 
     public MainMenuUI(){
@@ -35,17 +33,23 @@ public class MainMenuUI {
         return readValidOption(1,2) == 1;
     }
 
-    public User collectionUserData(){
-        User user = new User();
+    public UserDataDTO collectionUserData(){
         System.out.println("Name: ");
-        user.setName(scanner.nextLine());
+        String name = scanner.nextLine();
+
         System.out.println("Age: ");
-        user.setAge(Integer.parseInt(scanner.nextLine()));
-        System.out.println("CPF: ");
-        user.setCpf(scanner.nextLine());
-        System.out.println("Cell Phone: ");
-        user.setCellPhone(scanner.nextLine());
-        return user;
+        int age = readValidOption(18, 120);
+
+        System.out.println("CPF:");
+        String cpf = scanner.nextLine();
+
+        System.out.println("Phone: ");
+        String phone = scanner.nextLine();
+
+        System.out.println("Password: ");
+        String password = scanner.nextLine();
+
+        return new UserDataDTO(name, age, cpf, phone, password);
     }
 
     private int readValidOption(int min, int max){
@@ -55,10 +59,23 @@ public class MainMenuUI {
                 if (option>=min && option<=max) {
                     return option;
                 }
-                System.out.println("\"Please enter a value between %d and %d:%n\", min, max");
+                System.out.printf("\"Please enter a value between %d and %d:%n\", min, max");
             }catch(NumberFormatException e){
                 System.out.println("Invalid input. Please enter a number.");
             }
         }
     }
+
+    @Override
+    public void close(){
+        scanner.close();
+    }
+
+    public record UserDataDTO(
+        String name, 
+        int age, 
+        String cpf, 
+        String phone, 
+        String password
+    ){}
 }

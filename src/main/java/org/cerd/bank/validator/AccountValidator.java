@@ -1,23 +1,26 @@
 package org.cerd.bank.validator;
 
-import org.cerd.bank.repository.UserRepository;
+import org.cerd.bank.repository.AccountRepository;
+import org.cerd.bank.util.HashUtil;
 
 public class AccountValidator{
-    private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
+    private final HashUtil hashUtil;
 
-    public AccountValidator(UserRepository userRepository){
-        this.userRepository = userRepository;
+    public AccountValidator(AccountRepository accountRepository, HashUtil hashUtil){
+        this.accountRepository = accountRepository;
+        this.hashUtil = hashUtil;
     }
 
     public boolean accountExists(String cpf){
-        return userRepository.findByCpf(cpf).isPresent();
+        return accountRepository.findByCpf(cpf).isPresent();
     }
 
-    public boolean validateCredentials(String accountId, String password){
-        return userRepository.findAll().stream()
-        .anyMatch(account -> 
-            account.getAccountID().equals(accountId) &&
-            account.getPasswordID().equals(password)
-        );
+    public boolean validateCredentials(String accountId, String rawPassword){
+        return accountRepository.findAll().stream()
+            .filter(acc -> acc.getAccountID().equals(accountId))
+            .findFirst()
+            .map(acc -> hashUtil.validatePassword(rawPassword, acc.getInfoUser().getPasswordHash()))
+            .orElse(false);
     }
 }

@@ -47,7 +47,8 @@ public class Account {
     @Override
     public boolean equals(Object o){
         if(this == o) return true;
-        if(this == null || getClass() != o.getClass()) return false;
+        if(o == null || getClass() != o.getClass()) return false;
+
         Account account = (Account) o;
         return Objects.equals(accountID, account.accountID);
     }
@@ -59,6 +60,6 @@ public class Account {
 
     @Override
     public String toString(){
-        return "Account{accountID='%s', user='%s', balance='%s'}".formatted(accountID, infoUser, balance);
+        return "Account{accountID='%s', balance='%s'}".formatted(accountID, balance);
     }
 }
